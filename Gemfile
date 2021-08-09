@@ -9,7 +9,7 @@ gem "bootsnap", ">= 1.4.2", require: false
 gem "jbuilder", "~> 2.10.1"
 gem "sqlite3", "~> 1.4"
 gem "puma", "~> 4.1"
-gem "rails", "~> 6.0.3", ">= 6.0.3.4"
+gem "rails", "~> 6.0.3", ">= 6.0.3.6"
 gem "rubocop-rails_config", "~> 1.3.3"
 
 group :development, :test do
