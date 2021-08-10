@@ -1,11 +1,29 @@
 # frozen_string_literal: true
 
 class TicketsController < ApiController
-  before_action :set_event
-  before_action :set_tickets
+  # before_action :set_event
+  # before_action :set_tickets
 
   def index
     render :index
+  end
+
+  def available_tickets
+    tickets = Ticket.available
+
+    render jsonapi: tickets
+  end
+
+  def reserved_tickets
+    tickets = Ticket.reserved
+
+    render jsonapi: tickets
+  end
+
+  def sold_tickets
+    tickets = Ticket.sold
+
+    render jsonapi: tickets
   end
 
   def buy
@@ -23,20 +41,20 @@ class TicketsController < ApiController
     params.permit(:event_id, :token, :tickets_count)
   end
 
-  def set_event
-    @event = Event.find(params[:event_id])
-  rescue ActiveRecord::RecordNotFound => error
-    not_found_error(error)
-  end
-
-  def set_tickets
-    @tickets = @event.ticket
-    if @tickets.present?
-      @tickets
-    else
-      render json: { error: "Ticket not found." }, status: :not_found
-    end
-  end
+  # def set_event
+  #   @event = Event.find(params[:event_id])
+  # rescue ActiveRecord::RecordNotFound => error
+  #   not_found_error(error)
+  # end
+  #
+  # def set_tickets
+  #   @tickets = @event.ticket
+  #   if @tickets.present?
+  #     @tickets
+  #   else
+  #     render json: { error: "Ticket not found." }, status: :not_found
+  #   end
+  # end
 
   def wrong_number_of_tickets
     render json: { error: "Number of tickets must be greater than zero." }, status: :unprocessable_entity

@@ -12,6 +12,7 @@ gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3", ">= 6.0.3.6"
 gem "rubocop-rails_config", "~> 1.3.3"
 gem 'pg', '~> 1.1'
+gem 'jsonapi-rails'
 
 group :development, :test do
   gem "byebug", "~> 11.1.3"
