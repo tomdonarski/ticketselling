@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_12_09_162021) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.datetime "time"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_162021) do
   create_table "tickets", force: :cascade do |t|
     t.integer "available"
     t.decimal "price", precision: 8, scale: 2
-    t.integer "event_id", null: false
+    t.bigint "event_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["event_id"], name: "index_tickets_on_event_id"
