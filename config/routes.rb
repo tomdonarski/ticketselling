@@ -9,5 +9,8 @@ Rails.application.routes.draw do
         post :buy
       end
     end
+    get 'available_tickets', to: 'tickets#available_tickets'
+    get 'reserved_tickets', to: 'tickets#reserved_tickets'
+    get 'sold_tickets', to: 'tickets#sold_tickets'
   end
 end
