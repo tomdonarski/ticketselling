@@ -84,7 +84,6 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.tickets (
     id bigint NOT NULL,
-    available integer,
     price numeric(8,2),
     event_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
@@ -189,6 +188,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20201209161856'),
 ('20201209162021'),
-('20210810162811');
+('20210810162811'),
+('20210810164633');
 
 
