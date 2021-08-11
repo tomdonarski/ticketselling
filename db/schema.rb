@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_124627) do
+ActiveRecord::Schema.define(version: 2021_08_11_170021) do
 
   create_table "events", force: :cascade do |t|
     t.string "name"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2021_08_11_124627) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "ticket_count", null: false
+    t.boolean "paid", default: false, null: false
     t.index ["ticket_id"], name: "index_reservations_on_ticket_id"
   end
 
