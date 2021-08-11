@@ -27,7 +27,7 @@ class CreateReservationService
       )
       ticket.update!(available: new_available_pool, reserved: count)
 
-      ReservationWorker.perform_at(reservation_expiration_time, reservation.id)
+      # ReservationWorker.perform_at(reservation_expiration_time, reservation.id)
     end
 
   end
