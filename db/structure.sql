@@ -70,6 +70,70 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 
 --
+-- Name: reservations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reservations (
+    id bigint NOT NULL,
+    expired boolean DEFAULT false NOT NULL,
+    expires_at timestamp without time zone DEFAULT '2021-08-11 07:46:12.496655'::timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: reservations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reservations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reservations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reservations_id_seq OWNED BY public.reservations.id;
+
+
+--
+-- Name: reserved_tickets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reserved_tickets (
+    id bigint NOT NULL,
+    ticket_id bigint NOT NULL,
+    reservation_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: reserved_tickets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reserved_tickets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reserved_tickets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reserved_tickets_id_seq OWNED BY public.reserved_tickets.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -119,6 +183,20 @@ ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.event
 
 
 --
+-- Name: reservations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reservations ALTER COLUMN id SET DEFAULT nextval('public.reservations_id_seq'::regclass);
+
+
+--
+-- Name: reserved_tickets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reserved_tickets ALTER COLUMN id SET DEFAULT nextval('public.reserved_tickets_id_seq'::regclass);
+
+
+--
 -- Name: tickets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -142,6 +220,22 @@ ALTER TABLE ONLY public.events
 
 
 --
+-- Name: reservations reservations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reservations
+    ADD CONSTRAINT reservations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reserved_tickets reserved_tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reserved_tickets
+    ADD CONSTRAINT reserved_tickets_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -158,6 +252,20 @@ ALTER TABLE ONLY public.tickets
 
 
 --
+-- Name: index_reserved_tickets_on_reservation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reserved_tickets_on_reservation_id ON public.reserved_tickets USING btree (reservation_id);
+
+
+--
+-- Name: index_reserved_tickets_on_ticket_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reserved_tickets_on_ticket_id ON public.reserved_tickets USING btree (ticket_id);
+
+
+--
 -- Name: index_tickets_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -169,6 +277,22 @@ CREATE INDEX index_tickets_on_event_id ON public.tickets USING btree (event_id);
 --
 
 CREATE INDEX index_tickets_on_status ON public.tickets USING btree (status);
+
+
+--
+-- Name: reserved_tickets fk_rails_169b0e4be9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reserved_tickets
+    ADD CONSTRAINT fk_rails_169b0e4be9 FOREIGN KEY (ticket_id) REFERENCES public.tickets(id);
+
+
+--
+-- Name: reserved_tickets fk_rails_402154ea66; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reserved_tickets
+    ADD CONSTRAINT fk_rails_402154ea66 FOREIGN KEY (reservation_id) REFERENCES public.reservations(id);
 
 
 --
@@ -189,6 +313,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20201209161856'),
 ('20201209162021'),
 ('20210810162811'),
-('20210810164633');
+('20210810164633'),
+('20210811065421'),
+('20210811065624');
 
 
