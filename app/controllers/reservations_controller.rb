@@ -2,7 +2,7 @@
 
 class ReservationsController < ApiController
   def create
-    CreateReservationService.new(find_event, tickets_count, options).call
+    CreateReservationService.new(find_event, tickets_count).call
   end
 
   private
@@ -13,12 +13,5 @@ class ReservationsController < ApiController
 
   def tickets_count
     params[:tickets_count]
-  end
-
-  def options
-    {
-      even: params[:even],
-      avoid_one: params[:avoid_one],
-    }
   end
 end

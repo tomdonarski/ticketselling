@@ -3,17 +3,18 @@
 class CreateReservationService
   WrongNumberOfTickets = Class.new(StandardError)
   UnevenAmountOfTickets = Class.new(StandardError)
+  OnlyOneTicketWouldRemain = Class.new(StandardError)
 
-  def initialize(event, count, options = {})
+  def initialize(event, count)
     @event = event
     @ticket = event.ticket
     @count = count
-    @options = options
   end
 
   def call
     wrong_number_of_tickets?
-    uneven_amount_of_tickets if options[:even]
+    uneven_amount_of_tickets if ticket.even
+    only_one_ticket_would_remain if ticket.avoid_one
 
     ActiveRecord::Base.transaction do
       ticket.lock!
@@ -25,7 +26,7 @@ class CreateReservationService
 
   private
 
-  attr_reader :event, :ticket, :count, :options
+  attr_reader :event, :ticket, :count
 
   def reservation_expiration_timestamp
     DateTime.current + 15.minutes
@@ -37,6 +38,10 @@ class CreateReservationService
 
   def uneven_amount_of_tickets
     raise UnevenAmountOfTickets, "Number of tickets must be even." unless count.even?
+  end
+
+  def only_one_ticket_would_remain
+    raise OnlyOneTicketWouldRemain, "Number of tickets must be even." unless new_available_pool == 1
   end
 
   def new_available_pool

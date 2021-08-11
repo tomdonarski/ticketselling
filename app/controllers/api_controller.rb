@@ -6,6 +6,7 @@ class ApiController < ApplicationController
               with: :payment_failed_error
   rescue_from CreateReservationService::UnevenAmountOfTickets, with: :conflict_error
   rescue_from CreateReservationService::WrongNumberOfTickets, with: :conflict_error
+  rescue_from CreateReservationService::OnlyOneTicketWouldRemain, with: :conflict_error
 
   private
 
