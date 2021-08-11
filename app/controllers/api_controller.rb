@@ -4,6 +4,7 @@ class ApiController < ApplicationController
   rescue_from TicketPayment::NotEnoughTicketsError, with: :conflict_error
   rescue_from Payment::Gateway::CardError, Payment::Gateway::PaymentError,
               with: :payment_failed_error
+  rescue_from CreateReservationService::TicketAlreadyReserved, with: :conflict_error
 
   private
 

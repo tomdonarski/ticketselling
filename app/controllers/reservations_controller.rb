@@ -2,6 +2,12 @@
 
 class ReservationsController < ApiController
   def create
-    Reservation.create!(expires_at: DateTime.current + 15.minutes)
+    CreateReservationService.new(find_tickets).call
+  end
+
+  private
+
+  def find_tickets
+    Ticket.find(params[:ticket_ids])
   end
 end
