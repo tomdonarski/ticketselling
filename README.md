@@ -12,6 +12,5 @@
 * Setup database `rails db:setup`
 * Run server `rails s`
 
-### Task
-* [junior](task_junior.md)
-* [regular/senior](task_regular_senior.md)
+### API testing
+* In order to test the API - please use the postman file that is part of the repository (recruitment-task.postman_collection.json)
