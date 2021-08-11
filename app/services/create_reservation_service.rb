@@ -22,10 +22,12 @@ class CreateReservationService
       ticket.lock!
       reservation = Reservation.create!(
         ticket_id: ticket.id,
-        expires_at: reservation_expiration_timestamp,
+        expires_at: reservation_expiration_time,
         ticket_count: count
       )
-      ticket.update(available: new_available_pool, reserved: count)
+      ticket.update!(available: new_available_pool, reserved: count)
+
+      ReservationWorker.perform_at(reservation_expiration_time, reservation.id)
     end
 
   end
@@ -34,7 +36,7 @@ class CreateReservationService
 
   attr_reader :event, :ticket, :count
 
-  def reservation_expiration_timestamp
+  def reservation_expiration_time
     DateTime.current + 15.minutes
   end
 
