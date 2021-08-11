@@ -9,5 +9,6 @@ Rails.application.routes.draw do
         post :buy
       end
     end
+    resources :reservations, only: [:create]
   end
 end
