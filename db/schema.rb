@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_11_114757) do
+ActiveRecord::Schema.define(version: 2021_08_11_124627) do
 
   create_table "events", force: :cascade do |t|
     t.string "name"
@@ -21,10 +21,11 @@ ActiveRecord::Schema.define(version: 2021_08_11_114757) do
 
   create_table "reservations", force: :cascade do |t|
     t.boolean "expired", default: false, null: false
-    t.datetime "expires_at", default: "2021-08-11 11:37:37", null: false
+    t.datetime "expires_at", default: "2021-08-11 12:50:17", null: false
     t.integer "ticket_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "ticket_count", null: false
     t.index ["ticket_id"], name: "index_reservations_on_ticket_id"
   end
 

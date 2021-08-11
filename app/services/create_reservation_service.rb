@@ -20,7 +20,11 @@ class CreateReservationService
 
     ActiveRecord::Base.transaction do
       ticket.lock!
-      reservation = Reservation.create!(ticket_id: ticket.id, expires_at: reservation_expiration_timestamp)
+      reservation = Reservation.create!(
+        ticket_id: ticket.id,
+        expires_at: reservation_expiration_timestamp,
+        ticket_count: count
+      )
       ticket.update(available: new_available_pool, reserved: count)
     end
 
